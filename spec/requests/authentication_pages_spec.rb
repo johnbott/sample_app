@@ -1,15 +1,5 @@
 require 'spec_helper'
 
-# describe "AuthenticationPages" do
-#   describe "GET /authentication_pages" do
-#     it "works! (now write some real specs)" do
-#       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-#       get authentication_pages_index_path
-#       response.status.should be(200)
-#     end
-#   end
-# end
-
 describe "Authentication" do
 
 	subject { page }
@@ -78,6 +68,19 @@ describe "Authentication" do
         describe "visiting the user index" do
           before { visit users_path }
           it { should have_title('Sign in') }
+        end
+      end
+
+      describe "in the Microposts controller" do
+
+        describe "submitting to the create action" do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
         end
       end
     end
